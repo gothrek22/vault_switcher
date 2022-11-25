@@ -19,6 +19,6 @@ profile_2:
 
 profile_app_role:
   address: https://vault.example.com
-  role_id: {UUID}
-  secret_id: {UUID}
+  role_id: { UUID }
+  secret_id: { UUID }
 ```
