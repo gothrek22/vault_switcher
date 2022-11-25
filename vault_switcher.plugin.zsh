@@ -22,7 +22,19 @@ function vsp() {
   PROFILE=$1
   export VAULT_PROFILE=$PROFILE
   export VAULT_ADDR=$(yq e ".$PROFILE.address" ~/.vault/credentials)
-  export VAULT_TOKEN=$(yq e ".$PROFILE.token" ~/.vault/credentials)
+  role_id=$(yq e ".$PROFILE.role_id" ~/.vault/credentials)
+  echo $role_id
+  if [[ ! -z "${role_id}" ]]; then
+    echo 'inside'
+    export VAULT_ROLE_ID=${role_id}
+    export VAULT_SECRET_ID=$(yq e ".$PROFILE.secret_id" ~/.vault/credentials)
+    unset VAULT_TOKEN
+  else
+    echo 'outside'
+    export VAULT_TOKEN=$(yq e ".$PROFILE.token" ~/.vault/credentials)
+  fi
+  unset role_id
+  unset PROFILE
 }
 
 function vault_profiles() {
